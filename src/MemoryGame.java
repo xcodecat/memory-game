@@ -23,14 +23,14 @@ public class MemoryGame extends JFrame {
         coverIcon = new ImageIcon("src/images/cover.png");
         imageIcons = loadImages();
 
-        // Erstelle zwei Kopien von jedem Bildsymbol
+        // Erstelle zwei Kopien von jedem Bild (Kartenpaar)
         List<ImageIcon> pairedIcons = new ArrayList<>();
         for (ImageIcon icon : imageIcons) {
             pairedIcons.add(icon);
             pairedIcons.add(icon);
         }
 
-        // Mische die Bildsymbole
+        // Mische die Karten
         Collections.shuffle(pairedIcons);
 
         for (ImageIcon icon : pairedIcons) {
@@ -109,7 +109,7 @@ public class MemoryGame extends JFrame {
         selectedButton = null;
         matchedPairs = 0;
 
-        // Setze das Spiel zurück, indem alle Karten versteckt werden und die Bildsymbole neu gemischt werden
+        // Setze das Spiel zurück, indem alle Karten versteckt und neu gemischt werden
         for (MemoryButton button : buttons) {
             button.hideImage();
             button.setMatched(false);
