@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,14 +13,14 @@ public class MemoryGame extends JFrame {
     private final List<ImageIcon> imageIcons;
 
     private MemoryButton selectedButton;
-    private int matchedPairs;
+    private int foundPairs;
 
     public MemoryGame() {
         setTitle("Memory Spiel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
 
-        JPanel panel = new JPanel (new GridLayout (4, 4, 5, 5));
+        JPanel panel = new JPanel(new GridLayout(4, 4, 5, 5));
         buttons = new ArrayList<>();
         coverIcon = new ImageIcon("src/images/cover.png");
         imageIcons = loadImages();
@@ -35,7 +37,12 @@ public class MemoryGame extends JFrame {
 
         for (ImageIcon icon : pairedIcons) {
             MemoryButton button = new MemoryButton(icon);
-            button.addActionListener(event -> buttonClicked(button));
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    buttonClicked(button);
+                }
+            });
             buttons.add(button);
             panel.add(button);
         }
@@ -47,6 +54,11 @@ public class MemoryGame extends JFrame {
     }
 
     private void buttonClicked(MemoryButton button) {
+        if (button.isMatched() || button == selectedButton) {
+            // Bereits gefunden oder doppelt geklickt, ignoriere den Klick
+            return;
+        }
+
         button.showImage();
 
         if (selectedButton == null) {
@@ -62,14 +74,12 @@ public class MemoryGame extends JFrame {
                 button.setEnabled(false);
                 selectedButton = null;
 
-                hideMatchedPairs(); // Verstecke gefundene Paare
-
-                // Überprüfe, ob alle Paare gefunden wurden
-                if (matchedPairs == imageIcons.size()) {
-                    // Spiel beendet
+                foundPairs++;
+                if (foundPairs == imageIcons.size()) {
+                    // Alle Paare gefunden
                     Object[] options = {"Neue Runde", "Beenden"};
                     int choice = JOptionPane.showOptionDialog(this,
-                            "Herzlichen Glückwunsch! Du hast das Spiel gewonnen!",
+                            "Herzlichen Glückwunsch! Du hast alle Paare gefunden!",
                             "Spiel beendet",
                             JOptionPane.DEFAULT_OPTION,
                             JOptionPane.INFORMATION_MESSAGE,
@@ -85,10 +95,13 @@ public class MemoryGame extends JFrame {
                 }
             } else {
                 // Kein Paar gefunden
-                Timer timer = new Timer(1000, e -> {
-                    selectedButton.hideImage();
-                    button.hideImage();
-                    selectedButton = null;
+                Timer timer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        selectedButton.hideImage();
+                        button.hideImage();
+                        selectedButton = null;
+                    }
                 });
                 timer.setRepeats(false);
                 timer.start();
@@ -96,18 +109,9 @@ public class MemoryGame extends JFrame {
         }
     }
 
-    private void hideMatchedPairs() {
-        for (MemoryButton button : buttons) {
-            if (button.isMatched()) {
-                button.setBackground(Color.GRAY);
-                button.setEnabled(false);
-            }
-        }
-    }
-
     private void resetGame() {
         selectedButton = null;
-        matchedPairs = 0;
+        foundPairs = 0;
 
         // Setze das Spiel zurück, indem alle Karten versteckt und neu gemischt werden
         for (MemoryButton button : buttons) {
