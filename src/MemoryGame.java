@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,12 +35,7 @@ public class MemoryGame extends JFrame {
 
         for (ImageIcon icon : pairedIcons) {
             MemoryButton button = new MemoryButton(icon);
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event) {
-                    buttonClicked(button);
-                }
-            });
+            button.addActionListener(event -> buttonClicked(button));
             buttons.add(button);
             panel.add(button);
         }
@@ -95,13 +88,10 @@ public class MemoryGame extends JFrame {
                 }
             } else {
                 // Kein Paar gefunden
-                Timer timer = new Timer(1000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        selectedButton.hideImage();
-                        button.hideImage();
-                        selectedButton = null;
-                    }
+                Timer timer = new Timer(1000, e -> {
+                    selectedButton.hideImage();
+                    button.hideImage();
+                    selectedButton = null;
                 });
                 timer.setRepeats(false);
                 timer.start();
