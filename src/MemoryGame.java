@@ -46,6 +46,10 @@ public class MemoryGame extends JFrame {
         setVisible(true);
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MemoryGame::new);
+    }
+
     private void buttonClicked(MemoryButton button) {
         if (button.isMatched() || button == selectedButton) {
             // Bereits gefunden oder doppelt geklickt, ignoriere den Klick
@@ -126,10 +130,6 @@ public class MemoryGame extends JFrame {
             icons.add(icon);
         }
         return icons;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MemoryGame::new);
     }
 
     class MemoryButton extends JButton {
