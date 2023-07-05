@@ -20,7 +20,7 @@ public class MemoryGame extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(4, 4, 5, 5));
         buttons = new ArrayList<>();
-        coverIcon = new ImageIcon("src/images/cover.png");
+        coverIcon = new ImageIcon((new ImageIcon("src/images/cover.png")).getImage().getScaledInstance(200, 200, 4));
         imageIcons = loadImages();
 
         // Erstelle zwei Kopien von jedem Bild (Kartenpaar)
@@ -44,6 +44,10 @@ public class MemoryGame extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MemoryGame::new);
     }
 
     private void buttonClicked(MemoryButton button) {
@@ -122,14 +126,12 @@ public class MemoryGame extends JFrame {
         List<ImageIcon> icons = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             String filename = "src/images/" + i + ".png";
-            ImageIcon icon = new ImageIcon(filename);
-            icons.add(icon);
+            // scale icon up
+            ImageIcon rawIcon = new ImageIcon(filename);
+            Image img = rawIcon.getImage().getScaledInstance(200, 200, 4);
+            icons.add(new ImageIcon(img));
         }
         return icons;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MemoryGame::new);
     }
 
     class MemoryButton extends JButton {
@@ -144,7 +146,6 @@ public class MemoryGame extends JFrame {
             setBorderPainted(false);
             setOpaque(true);
             setBackground(Color.WHITE);
-
             imageIcon = icon;
             matched = false;
         }
