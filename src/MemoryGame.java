@@ -89,25 +89,8 @@ public class MemoryGame extends JFrame {
 
                 foundPairs++;
                 updateScore();
-                System.out.println(foundPairs + " - " + imageIcons.size());
                 if (foundPairs == imageIcons.size()) {
-                    // Alle Paare gefunden
-                    int winner = (getMatchedPairsCount(1) > getMatchedPairsCount(2)) ? 1 : 2;
-                    Object[] options = {"Neue Runde", "Beenden"};
-                    int choice = JOptionPane.showOptionDialog(this,
-                            "Herzlichen Glückwunsch, Spieler " + winner + "! Du hast " + getMatchedPairsCount(winner) + " Paare gefunden!",
-                            "Spiel beendet",
-                            JOptionPane.DEFAULT_OPTION,
-                            JOptionPane.INFORMATION_MESSAGE,
-                            null,
-                            options,
-                            options[0]);
-
-                    if (choice == 0) {
-                        resetGame();
-                    } else {
-                        System.exit(0);
-                    }
+                    showEndDialog();
                 }
             } else {
 
@@ -126,7 +109,6 @@ public class MemoryGame extends JFrame {
     }
 
     private void switchPlayers() {
-        System.out.println("Aktueller Spieler: " + currentPlayer);
         currentPlayer = (currentPlayer == 1) ? 2 : 1;
         currentPlayerLabel.setText("Spieler " + currentPlayer + " ist an der Reihe");
     }
