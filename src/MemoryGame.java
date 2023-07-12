@@ -17,14 +17,15 @@ public class MemoryGame extends JFrame {
 
     public MemoryGame() {
         setTitle("Memory Spiel");
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/memory-game.svg")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+        setResizable(false);
 
         JPanel panel = new JPanel(new GridLayout(4, 4, 5, 5));
         buttons = new ArrayList<>();
         coverIcon = new ImageIcon((new ImageIcon("src/images/cover.png")).getImage().getScaledInstance(200, 200, 4));
         imageIcons = loadImages();
-        // currentPlayer auf "1" setzen, da er sonst mit "0" startet und am Anfang sonst 2 Züge hat.
+        // currentPlayer auf "1" setzen, da er sonst mit "0" startet und am Anfang sonst 2 Züge hat
         currentPlayer = 1;
 
         // Erstelle zwei Kopien von jedem Bild (Kartenpaar)
@@ -44,17 +45,18 @@ public class MemoryGame extends JFrame {
             panel.add(button);
         }
 
-        // new
+        // Punktezähler und Spieleranzeige
         currentPlayerLabel = new JLabel("Spieler 1 ist an der Reihe");
+        currentPlayerLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
         scoreLabel = new JLabel("Punkte: Spieler 1 - 0, Spieler 2 - 0");
-        scoreLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        scoreLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+        //scoreLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 50));
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(scoreLabel, BorderLayout.EAST);
 
         add(currentPlayerLabel, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
-        //
 
         add(panel);
         pack();
@@ -99,7 +101,7 @@ public class MemoryGame extends JFrame {
                     selectedButton.hideImage();
                     button.hideImage();
                     selectedButton = null;
-                    // player switcher
+                    // ändere spieler   
                     switchPlayers();
                 });
                 timer.setRepeats(false);
@@ -178,14 +180,7 @@ public class MemoryGame extends JFrame {
         }
 
         Object[] options = {"Neue Runde", "Beenden"};
-        int choice = JOptionPane.showOptionDialog(this,
-                "Herzlichen Glückwunsch! " + winner + " hat das Spiel gewonnen und die meisten Paare gefunden!",
-                "Spiel beendet",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                options,
-                options[0]);
+        int choice = JOptionPane.showOptionDialog(this, "Herzlichen Glückwunsch! " + winner + " hat das Spiel gewonnen und die meisten Paare gefunden!", "Spiel beendet", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 
         if (choice == 0) {
             resetGame();
@@ -202,7 +197,7 @@ public class MemoryGame extends JFrame {
 
         public MemoryButton(ImageIcon icon) {
             setIcon(coverIcon);
-            setPreferredSize(new Dimension(100, 100));
+            setPreferredSize(new Dimension(180, 180));
             setMargin(new Insets(0, 0, 0, 0));
             setContentAreaFilled(false);
             setBorderPainted(false);
