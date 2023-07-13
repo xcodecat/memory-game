@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class MemoryGame extends JFrame {
 
     public MemoryGame() {
         setTitle("Memory Spiel");
-        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/memory-game.svg")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/memory-game.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
@@ -48,9 +49,10 @@ public class MemoryGame extends JFrame {
         // Punktezähler und Spieleranzeige
         currentPlayerLabel = new JLabel("Spieler 1 ist an der Reihe");
         currentPlayerLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
-        scoreLabel = new JLabel("Punkte: Spieler 1 - 0, Spieler 2 - 0");
+        currentPlayerLabel.setBorder(new EmptyBorder(0, 10, 0, 0));
+        scoreLabel = new JLabel("Punkte: Spieler 1 (" + 0 + ") vs Spieler 2 (" + 0 + ")");
         scoreLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
-        //scoreLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 50));
+        scoreLabel.setBorder(new EmptyBorder(0, 0, 20, 10));
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(scoreLabel, BorderLayout.EAST);
 
@@ -118,7 +120,7 @@ public class MemoryGame extends JFrame {
     private void updateScore() {
         int player1Score = getMatchedPairsCount(1);
         int player2Score = getMatchedPairsCount(2);
-        scoreLabel.setText("Punkte: Spieler 1 - " + player1Score + ", Spieler 2 - " + player2Score);
+        scoreLabel.setText("Punkte: Spieler 1 (" + player1Score + ") vs Spieler 2 (" + player2Score + ")");
     }
 
     private void resetGame() {
@@ -126,7 +128,7 @@ public class MemoryGame extends JFrame {
         currentPlayer = 1;
         foundPairs = 0;
         currentPlayerLabel.setText("Spieler 1 ist an der Reihe");
-        scoreLabel.setText("Punkte: Spieler 1 - 0, Spieler 2 - 0");
+        scoreLabel.setText("Punkte: Spieler 1 (" + 0 + ") vs Spieler 2 (" + 0 + ")");
 
         // Setze das Spiel zurück, indem alle Karten versteckt und neu gemischt werden
         for (MemoryButton button : buttons) {
@@ -197,7 +199,7 @@ public class MemoryGame extends JFrame {
 
         public MemoryButton(ImageIcon icon) {
             setIcon(coverIcon);
-            setPreferredSize(new Dimension(180, 180));
+            setPreferredSize(new Dimension(185, 185));
             setMargin(new Insets(0, 0, 0, 0));
             setContentAreaFilled(false);
             setBorderPainted(false);
